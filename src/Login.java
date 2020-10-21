@@ -19,13 +19,15 @@ public class Login extends JFrame {
     private JPanel abschnitt1Panel = new JPanel();
     private JPanel loginPanel = new JPanel();
     private JPanel loginSplitPanel = new JPanel();
-    static JButton login = new JButton("Login");
+    static final JButton login = new JButton("Login");
     private JLabel titelEingabePasswort = new JLabel("Passwort: ");
+    static Boolean passwortGeknackt = false;
+    private int counter = 0;
 
-    public Login(String passwort) throws HeadlessException {
+
+    Login(String passwort) throws HeadlessException {
         super("Login");
             init(passwort);
-
         }
 
     private void init(String passwort) {
@@ -48,14 +50,40 @@ public class Login extends JFrame {
         loginPanel.add(login);
         login.setFont(new Font("SansSerif", Font.BOLD, 12));
 
+        /**
+         * TODO
+         * Ergänze hier etwas, um das Login sicherer zu machen
+         */
+
         login.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                synchronized (login){
+                    /**
+                     * TODO
+                     * Ergänze hier etwas, um das Login sicherer zu machen
+                     */
+                    try {
+                        login.wait(500);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    counter++;
+                    if (counter == 10){
+                        JLabel nachricht = new JLabel("Du hast zu viele flasche Passwörter eingegeben!");
+                        nachricht.setFont(new Font("SansSerif", Font.BOLD, 25));
+                        JOptionPane.showMessageDialog(null, nachricht);
+                        System.exit(0);
+                    }
+                }
+                /**
+                 * Überprüft ob das Passwort richtig ist
+                 */
                 if(eingabePasswort.getText().equals(passwort)){
                     JLabel nachricht = new JLabel("Du hast das Richtige Passwort herausgefunden!");
                     nachricht.setFont(new Font("SansSerif", Font.BOLD, 25));
                     JOptionPane.showMessageDialog(null, nachricht);
+                    passwortGeknackt = true;
                 }
-
             }
         });
     }

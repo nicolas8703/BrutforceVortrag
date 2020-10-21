@@ -12,21 +12,17 @@ import java.awt.event.ActionListener;
  */
 
 
-public class StartBruteForceGui extends JFrame{
-    private JTextField eingabePasswort = new JTextField();
+class StartBruteForceGui extends JFrame{
     private JPanel hauptPanel = new JPanel();
-    private JPanel abschnitt1Panel = new JPanel();
-    private JPanel loginPanel = new JPanel();
-    private JPanel loginSplitPanel = new JPanel();
     private JButton startBruteForceBttn = new JButton("Start Brute Force");
+    static JLabel eingabePasswort = new JLabel();
 
-
-    public StartBruteForceGui(Login login) throws HeadlessException {
+    StartBruteForceGui() throws HeadlessException {
         super("BruteForce starten");
-        init(login);
+        init();
     }
-
-    private void init(Login login) {
+    //initialize the Start Gui to enter the Password
+    private void init() {
         getContentPane().add(hauptPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
@@ -34,10 +30,14 @@ public class StartBruteForceGui extends JFrame{
         setResizable(false);
 
         hauptPanel.add(startBruteForceBttn);
+        hauptPanel.add(eingabePasswort);
+        eingabePasswort.setText("0");
 
+        //starts the BruteForce Attack
         startBruteForceBttn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                BruteForce bruteForce = new BruteForce(login);
+                BruteForce bruteForce = new BruteForce();
+                bruteForce.execute();
             }
         });
     }

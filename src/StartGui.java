@@ -21,18 +21,18 @@ import java.awt.event.ActionListener;
     private JButton login = new JButton("Start");
     private JLabel titelEingabePasswort = new JLabel("Passwort festlegen: ");
 
-    public StartGui() throws HeadlessException {
+    StartGui() throws HeadlessException {
         super("Passwort festlegen");
         init();
     }
 
+    //initialize the Start Gui to enter the Password
     private void init() {
         getContentPane().add(hauptPanel);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         setSize(330, 150);
         setResizable(false);
-
         hauptPanel.setLayout(new GridLayout(2, 1));
         hauptPanel.add(abschnitt1Panel);
         abschnitt1Panel.setLayout(new GridLayout(2, 1));
@@ -45,11 +45,12 @@ import java.awt.event.ActionListener;
         loginPanel.add(login);
         login.setFont(new Font("SansSerif", Font.BOLD, 12));
 
+        //starts the Login Gui and the Start BruteForce Gui
         login.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if(!eingabePasswort.getText().equals("")){
                     Login login = new Login(eingabePasswort.getText());
-                    StartBruteForceGui startBruteForceGui = new StartBruteForceGui(login);
+                    StartBruteForceGui startBruteForceGui = new StartBruteForceGui();
                     dispose();
                 }
             }

@@ -1,5 +1,11 @@
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * brutForce
@@ -10,59 +16,62 @@ import java.util.List;
  */
 
 
-public class BruteForce {
-
-    public BruteForce(Login login) {
-        List<String> pwListTop20;
-        pwListTop20 = createPwList();
-        start(pwListTop20);
-    }
+public class BruteForce extends SwingWorker {
+    /**
+     * Starts the BruteForce Attack
+     */
     private void start(List<String> pwListTop20){
+        /**
+         * TODO
+         * Ergänze hier die BruteForce Methode
+         */
+        int counter = 0;
+
         for (int i = 0; i < pwListTop20.size(); i++) {
-            Login.eingabePasswort.setText(pwListTop20.get(i));
-            Login.login.doClick();
+            if(!Login.passwortGeknackt) {
+                if (Login.login.isEnabled()) {
+                    counter++;
+                    Login.eingabePasswort.setText(pwListTop20.get(i));
+                    Login.login.doClick();
+                    StartBruteForceGui.eingabePasswort.setText(String.valueOf(counter));
+                }
+            }
+        }
+        Login.eingabePasswort.setText("");
+        if(!Login.passwortGeknackt) {
+            JLabel nachricht = new JLabel("Die Brute Force Methode ist nicht auf dein Passwort gekommen!");
+            nachricht.setFont(new Font("SansSerif", Font.BOLD, 25));
+            JOptionPane.showMessageDialog(null, nachricht);
         }
     }
 
+    /**
+     * Creates the Password List
+     */
+    private ArrayList<String> createPwList() {
+        Scanner s = null;
+        try {
+            URL url = getClass().getResource("pw/pwList.txt");
+            s = new Scanner(new File(url.getPath()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ArrayList<String> list = new ArrayList<>();
+        while (s.hasNext()){
+            list.add(s.next());
+        }
+        s.close();
+        return list;
+    }
 
-    private List<String> createPwList() {
-        List<String> pwListTop20 = new ArrayList<>();
-        pwListTop20.add("12345");
-        pwListTop20.add("1");
-        pwListTop20.add("12");
-        pwListTop20.add("123");
-        pwListTop20.add("1234");
-        pwListTop20.add("123456");
-        pwListTop20.add("123456789");
-        pwListTop20.add("test1");
-        pwListTop20.add("password");
-        pwListTop20.add("12345678");
-        pwListTop20.add("zinch");
-        pwListTop20.add("g_czechout");
-        pwListTop20.add("asdf");
-        pwListTop20.add("qwerty");
-        pwListTop20.add("1234567890");
-        pwListTop20.add("1234567");
-        pwListTop20.add("Aa123456");
-        pwListTop20.add("Aa123456.");
-        pwListTop20.add("iloveyou");
-        pwListTop20.add("1234");
-        pwListTop20.add("abc123");
-        pwListTop20.add("111111");
-        pwListTop20.add("123123");
-        pwListTop20.add("dubsmash");
-        pwListTop20.add("test");
-        pwListTop20.add("princess");
-        pwListTop20.add("qwertyuiop");
-        pwListTop20.add("sunshine");
-        pwListTop20.add("BvtTest123");
-        pwListTop20.add("11111");
-        pwListTop20.add("ashley");
-        pwListTop20.add("00000");
-        pwListTop20.add("000000");
-        pwListTop20.add("password1");
-        pwListTop20.add("monkey");
-
-        return pwListTop20;
+    /**
+     * Runs all methods in the background to keep the gui responsive
+     */
+    @Override
+    protected Object doInBackground() {
+        ArrayList<String> pwList;
+        pwList = createPwList();
+        start(pwList);
+        return null;
     }
 }
