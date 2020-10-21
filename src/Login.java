@@ -62,6 +62,9 @@ public class Login extends JFrame {
                      * TODO
                      * Ergänze hier etwas, um das Login sicherer zu machen
                      */
+
+                    /**
+                     * Lösungen:
                     try {
                         login.wait(500);
                     } catch (InterruptedException ex) {
@@ -69,11 +72,12 @@ public class Login extends JFrame {
                     }
                     counter++;
                     if (counter == 10){
-                        JLabel nachricht = new JLabel("Du hast zu viele flasche Passwörter eingegeben!");
+                        JLabel nachricht = new JLabel("Du hast zu viele falsche Passwörter eingegeben!");
                         nachricht.setFont(new Font("SansSerif", Font.BOLD, 25));
                         JOptionPane.showMessageDialog(null, nachricht);
                         System.exit(0);
                     }
+                    */
                 }
                 /**
                  * Überprüft ob das Passwort richtig ist
